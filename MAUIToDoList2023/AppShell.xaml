@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="MAUIToDoList2023.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:MAUIToDoList2023"
+    xmlns:views="clr-namespace:MAUIToDoList2023.Views"
+    Shell.FlyoutBehavior="Disabled"
+    Shell.BackgroundColor="Tomato"
+    Shell.NavBarHasShadow="True"
+    Shell.TitleColor="Black"
+    Shell.PresentationMode="ModalAnimated"
+    Title="Úkolníček">
+    
+        <ShellContent
+            Title="Úkoly"
+            ContentTemplate="{DataTemplate views:MainPage}"
+            Route="MainPage" />
+    
+</Shell>
