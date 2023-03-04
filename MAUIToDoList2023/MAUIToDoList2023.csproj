@@ -17,6 +17,8 @@
 		<!-- App Identifier -->
 		<ApplicationId>com.companyname.mauitodolist2023</ApplicationId>
 		<ApplicationIdGuid>354fd0f7-9ed6-4d95-8451-374b20db7bad</ApplicationIdGuid>
+		
+		<IncludePackageReferencesDuringMarkupCompilation>true</IncludePackageReferencesDuringMarkupCompilation>
 
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
@@ -64,6 +66,9 @@
 
 	<ItemGroup>
 	  <MauiXaml Update="Views\AddPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\EditPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

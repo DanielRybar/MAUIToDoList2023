@@ -1,20 +1,18 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using MAUIToDoList2023.Interfaces;
 using MAUIToDoList2023.Models;
-using System.ComponentModel.DataAnnotations;
 using System.Windows.Input;
 
 namespace MAUIToDoList2023.ViewModels
 {
-    public partial class AddViewModel : /*ObservableObject*/ ObservableValidator
+    public partial class EditViewModel : ObservableValidator
     {
         private readonly IDataStore<TaskItem> _store;
 
         [ObservableProperty]
-        [NotifyDataErrorInfo]
-        [Required(ErrorMessage = "Název je povinný")]
-        [MaxLength(10, ErrorMessage = "Maximální délka názvu je 10 znaků")]
-        //[NotifyCanExecuteChangedFor(nameof(AddCommand))]
+        private int _id;
+
+        [ObservableProperty]
         private string _taskTitle = String.Empty;
 
         [ObservableProperty]
@@ -32,7 +30,7 @@ namespace MAUIToDoList2023.ViewModels
         // validace
         [ObservableProperty]
         private string _errorMsg = String.Empty;
-
+        
         // vynulování proměnných
         public void ReturnToInitialState()
         {
@@ -44,12 +42,12 @@ namespace MAUIToDoList2023.ViewModels
 
             ErrorMsg = String.Empty;
         }
-
-        public AddViewModel(IDataStore<TaskItem> store, MainViewModel mainViewModel)
+        public EditViewModel(IDataStore<TaskItem> store, MainViewModel mainViewModel)
         {
             _store = store;
+
             
-            AddCommand = new Command(
+            EditCommand = new Command(
                 async () =>
                 {
                     ValidateAllProperties();
@@ -57,34 +55,30 @@ namespace MAUIToDoList2023.ViewModels
                         ErrorMsg = String.Join(Environment.NewLine, GetErrors().Select(e => e.ErrorMessage));
                     else
                     {
-                        var task = new TaskItem
+                        var task = await _store.GetItemAsync(Id);
+                        if (task != null)
                         {
-                            Title = TaskTitle,
-                            Description = TaskDescription,
-                            IsDone = IsDone,
-                            EndDate = SelectedDate,
-                            Importance = SelectedImportance
-                        };
-                        await _store.AddItemAsync(task);
-
+                            
+                        }
+ 
                         mainViewModel.UpdateCollection();
-                        ((Command)mainViewModel.RemoveAllCommand).ChangeCanExecute();
-                        
+
                         await Shell.Current.GoToAsync("..");
                         ReturnToInitialState();
                     }
                 },
-                () => true /*!String.IsNullOrWhiteSpace(TaskTitle)*/
+                () => true
             );
+            
         }
 
-        public ICommand AddCommand { get; private set; }
+        public ICommand EditCommand { get; private set; }
 
         public List<Importance> ImportanceList
         {
             get => Enum.GetValues(typeof(Importance)).Cast<Importance>().ToList();
         }
 
-        partial void OnTaskTitleChanged(string value) => ((Command)AddCommand).ChangeCanExecute();
+        //partial void OnTaskTitleChanged(string value) => ((Command)EditCommand).ChangeCanExecute();
     }
 }

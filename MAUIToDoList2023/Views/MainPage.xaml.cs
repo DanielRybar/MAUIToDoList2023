@@ -10,13 +10,15 @@ namespace MAUIToDoList2023.Views;
 public partial class MainPage : ContentPage
 {
 	MainViewModel _vm;
+    EditViewModel _evm;
 	IDataStore<TaskItem> _store;
-	
-	public MainPage(MainViewModel vm, IDataStore<TaskItem> store)
-	{
+
+    public MainPage(MainViewModel vm, IDataStore<TaskItem> store, EditViewModel evm)
+    {
 		BindingContext = vm;
 		_vm = vm;
 		_store = store;
+        _evm = evm;
 		
 		InitializeComponent();
 
@@ -41,6 +43,7 @@ public partial class MainPage : ContentPage
             {
                 await _store.RemoveAllItemsAsync();
                 _vm.UpdateCollection();
+                _vm.SelectedTask = null;
                 ((Command)_vm.RemoveAllCommand).ChangeCanExecute();
             }
         });
@@ -65,7 +68,25 @@ public partial class MainPage : ContentPage
 
     private async void OnAddButtonPressed(object sender, EventArgs e)
     {
+        _vm.SelectedTask = null;
 		await Shell.Current.GoToAsync(nameof(AddPage));
+    }
+
+    private async void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
+    {
+        Debug.WriteLine("Tapped on: " + _vm.SelectedTask.Title);
+
+        _evm.Id = _vm.SelectedTask.TaskId;
+        _evm.TaskTitle = _vm.SelectedTask.Title;
+        _evm.TaskDescription = _vm.SelectedTask.Description;
+        _evm.SelectedDate = _vm.SelectedTask.EndDate;
+        _evm.IsDone = _vm.SelectedTask.IsDone;
+        _evm.SelectedImportance = _vm.SelectedTask.Importance;
+        
+
+        await Shell.Current.GoToAsync(nameof(EditPage));
+
+        _vm.SelectedTask = null;
     }
 }
 

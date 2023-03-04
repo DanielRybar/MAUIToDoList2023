@@ -77,11 +77,28 @@ namespace MAUIToDoList2023.ViewModels
                 },
                 () => SelectedTask != null
             );
+
+            RemoveCommand = new Command(
+                async () =>
+                {
+                    int id = SelectedTask.TaskId;
+                    var task = await _store.GetItemAsync(id);
+                    if (task != null)
+                    {
+                        await _store.DeleteItemAsync(task);
+                    }
+
+                    SelectedTask = null;
+                    UpdateCollection();
+                    ((Command)RemoveAllCommand).ChangeCanExecute();
+                },
+                () => SelectedTask != null
+            );
         }
 
         public ICommand RemoveAllCommand { get; private set; }
         public ICommand FinishTaskCommand { get; private set; }
-
+        public ICommand RemoveCommand { get; private set; }
 
         public ObservableCollection<TaskItem> TaskItems
         {
@@ -103,6 +120,7 @@ namespace MAUIToDoList2023.ViewModels
                 _selectedTask = value;
                 NotifyPropertyChanged();
                 ((Command)FinishTaskCommand).ChangeCanExecute();
+                ((Command)RemoveCommand).ChangeCanExecute();
             }
         }
     }

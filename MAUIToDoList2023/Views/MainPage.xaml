@@ -21,15 +21,26 @@
 
             <HorizontalStackLayout Spacing="10">
                 <ImageButton 
-                    Source="delete_all.png"
-                    HeightRequest="30"
-                    WidthRequest="30"
-                    Command="{Binding RemoveAllCommand}" />
-                <ImageButton 
                     Source="add.png" 
                     HeightRequest="30"
                     WidthRequest="30"
-                    Pressed="OnAddButtonPressed" />
+                    Pressed="OnAddButtonPressed" 
+                    BackgroundColor="Green"
+                    CornerRadius="8" />
+                <ImageButton 
+                    Source="delete.png"   
+                    HeightRequest="30"
+                    WidthRequest="30"
+                    Command="{Binding RemoveCommand}"
+                    BackgroundColor="OrangeRed"
+                    CornerRadius="8" />
+                <ImageButton 
+                    Source="delete_all.png"
+                    HeightRequest="30"
+                    WidthRequest="30"
+                    Command="{Binding RemoveAllCommand}"
+                    BackgroundColor="Crimson"
+                    CornerRadius="8" />
             </HorizontalStackLayout>
 
             <CollectionView x:Name="collectionView" 
@@ -60,33 +71,39 @@
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-
+                                
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer 
+                                        Tapped="TapGestureRecognizer_Tapped"
+                                        NumberOfTapsRequired="2" />
+                                </Grid.GestureRecognizers>
+                                
                                 <Image
-                                  WidthRequest="30" 
-                                  HeightRequest="30" 
-                                  Margin="0,0,10,0"
-                                  Source="{Binding Importance, Converter={StaticResource ImportanceToImageConverter}}" />
+                                      WidthRequest="30" 
+                                      HeightRequest="30" 
+                                      Margin="0,0,10,0"
+                                      Source="{Binding Importance, Converter={StaticResource ImportanceToImageConverter}}" />
 
                                 <VerticalStackLayout Grid.Column="1" Padding="5">
                                     <Label 
-                                      Text="{Binding Title}"
-                                      FontAttributes="Bold" />
+                                          Text="{Binding Title}"
+                                          FontAttributes="Bold" />
 
                                     <Label 
-                                     Text="{Binding EndDate, StringFormat='{}{0:dd/MM/yyyy}'}"
-                                     VerticalOptions="End" />
+                                         Text="{Binding EndDate, StringFormat='{}{0:dd/MM/yyyy}'}"
+                                         VerticalOptions="End" />
 
                                     <Label
-                                     Text="{Binding Description}"
-                                     FontAttributes="Italic"
-                                     VerticalOptions="End" />
+                                         Text="{Binding Description}"
+                                         FontAttributes="Italic"
+                                         VerticalOptions="End" />
                                 </VerticalStackLayout>
 
                                 <CheckBox 
-                                    Grid.Column="2" 
-                                    IsChecked="{Binding IsDone, Mode=TwoWay}" 
-                                    CheckedChanged="OnFinishChecked" 
-                                    AutomationId="{Binding TaskId}"  />
+                                        Grid.Column="2" 
+                                        IsChecked="{Binding IsDone, Mode=TwoWay}" 
+                                        CheckedChanged="OnFinishChecked" 
+                                        AutomationId="{Binding TaskId}"  />
                             </Grid>
                         </StackLayout>
                     </DataTemplate>
