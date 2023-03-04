@@ -10,6 +10,76 @@
                                          Medium="medium.png" 
                                          High="high.png"
                                          Default="dotnet_bot.png" />
+
+        <DataTemplate x:Key="collectionTemplate">
+            <StackLayout>
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup Name="CommonStates">
+                        <VisualState Name="Normal">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="White" />
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState Name="Selected">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="#007fff" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+
+                <Grid AutomationId="{Binding TaskId}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer 
+                            Tapped="TapGestureRecognizer_Tapped"
+                            NumberOfTapsRequired="2"  />
+                        <TapGestureRecognizer 
+                            Tapped="TapGestureRecognizer_Highlight"
+                            NumberOfTapsRequired="1" />
+                    </Grid.GestureRecognizers>
+
+                    <Image
+                        WidthRequest="30" 
+                        HeightRequest="30" 
+                        Margin="0,0,10,0"
+                        Source="{Binding Importance, Converter={StaticResource ImportanceToImageConverter}}" />
+
+                    <VerticalStackLayout Grid.Column="1" Padding="5">
+                        <Label 
+                            Text="{Binding Title}"
+                            FontAttributes="Bold" />
+
+                        <Label 
+                             VerticalOptions="End">
+                            <Label.Text>
+                                <MultiBinding StringFormat="{}{0} ({1} dní)">
+                                    <Binding Path="EndDate" StringFormat='{}{0:dd/MM/yyyy}' />
+                                    <Binding Path="DaysRemaining" />
+                                </MultiBinding>
+                            </Label.Text>
+                        </Label>
+
+                        <Label
+                            Text="{Binding Description}"
+                            FontAttributes="Italic"
+                            VerticalOptions="End"
+                            LineBreakMode="CharacterWrap" />
+                    </VerticalStackLayout>
+
+                    <CheckBox 
+                        Grid.Column="2" 
+                        IsChecked="{Binding IsDone, Mode=TwoWay}" 
+                        CheckedChanged="OnFinishChecked" 
+                        AutomationId="{Binding TaskId}"  />
+                </Grid>
+            </StackLayout>
+        </DataTemplate>
     </ContentPage.Resources>
 
     <ScrollView>
@@ -22,94 +92,33 @@
             <HorizontalStackLayout Spacing="10">
                 <ImageButton 
                     Source="add.png" 
-                    HeightRequest="30"
-                    WidthRequest="30"
+                    HeightRequest="40"
+                    WidthRequest="40"
                     Pressed="OnAddButtonPressed" 
-                    BackgroundColor="Green"
+                    BackgroundColor="{StaticResource Green}"
                     CornerRadius="8" />
                 <ImageButton 
                     Source="delete.png"   
-                    HeightRequest="30"
-                    WidthRequest="30"
+                    HeightRequest="40"
+                    WidthRequest="40"
                     Command="{Binding RemoveCommand}"
                     BackgroundColor="OrangeRed"
                     CornerRadius="8" />
                 <ImageButton 
                     Source="delete_all.png"
-                    HeightRequest="30"
-                    WidthRequest="30"
+                    HeightRequest="40"
+                    WidthRequest="40"
                     Command="{Binding RemoveAllCommand}"
-                    BackgroundColor="Crimson"
+                    BackgroundColor="{StaticResource Crimson}"
                     CornerRadius="8" />
             </HorizontalStackLayout>
 
             <CollectionView x:Name="collectionView" 
-                            ItemsSource="{Binding TaskItems}" 
-                            SelectedItem="{Binding SelectedTask, Mode=TwoWay}"
-                            SelectionMode="Single">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <StackLayout>
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup Name="CommonStates">
-                                    <VisualState Name="Normal">
-                                        <VisualState.Setters>
-                                            <Setter Property="BackgroundColor" Value="White" />
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                    <VisualState Name="Selected">
-                                        <VisualState.Setters>
-                                            <Setter Property="BackgroundColor" Value="#007fff" />
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
+                    ItemsSource="{Binding TaskItems}" 
+                    SelectedItem="{Binding SelectedTask, Mode=TwoWay}"
+                    SelectionMode="Single"
+                    ItemTemplate="{StaticResource collectionTemplate}" />
 
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                
-                                <Grid.GestureRecognizers>
-                                    <TapGestureRecognizer 
-                                        Tapped="TapGestureRecognizer_Tapped"
-                                        NumberOfTapsRequired="2" />
-                                </Grid.GestureRecognizers>
-                                
-                                <Image
-                                      WidthRequest="30" 
-                                      HeightRequest="30" 
-                                      Margin="0,0,10,0"
-                                      Source="{Binding Importance, Converter={StaticResource ImportanceToImageConverter}}" />
-
-                                <VerticalStackLayout Grid.Column="1" Padding="5">
-                                    <Label 
-                                          Text="{Binding Title}"
-                                          FontAttributes="Bold" />
-
-                                    <Label 
-                                         Text="{Binding EndDate, StringFormat='{}{0:dd/MM/yyyy}'}"
-                                         VerticalOptions="End" />
-
-                                    <Label
-                                         Text="{Binding Description}"
-                                         FontAttributes="Italic"
-                                         VerticalOptions="End" />
-                                </VerticalStackLayout>
-
-                                <CheckBox 
-                                        Grid.Column="2" 
-                                        IsChecked="{Binding IsDone, Mode=TwoWay}" 
-                                        CheckedChanged="OnFinishChecked" 
-                                        AutomationId="{Binding TaskId}"  />
-                            </Grid>
-                        </StackLayout>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-            
         </VerticalStackLayout>
     </ScrollView>
 

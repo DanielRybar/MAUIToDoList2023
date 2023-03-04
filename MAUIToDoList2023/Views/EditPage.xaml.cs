@@ -17,6 +17,6 @@ public partial class EditPage : ContentPage
     private async void OnCancelButtonPressed(object sender, EventArgs e)
     {
         await Shell.Current.GoToAsync("..");
-        //_vm.ReturnToInitialState();
+        _vm.ReturnToInitialState();
     }
 }

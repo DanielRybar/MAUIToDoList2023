@@ -72,9 +72,17 @@ public partial class MainPage : ContentPage
 		await Shell.Current.GoToAsync(nameof(AddPage));
     }
 
+    private async void TapGestureRecognizer_Highlight(object sender, TappedEventArgs e)
+    {
+        if (sender is Grid grid && grid.AutomationId != null)
+            _vm.SelectedTask = await _store.GetItemAsync(int.Parse(grid.AutomationId));
+    }
+
     private async void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
     {
         Debug.WriteLine("Tapped on: " + _vm.SelectedTask.Title);
+        if (sender is Grid grid && grid.AutomationId != null)
+            _vm.SelectedTask = await _store.GetItemAsync(int.Parse(grid.AutomationId));
 
         _evm.Id = _vm.SelectedTask.TaskId;
         _evm.TaskTitle = _vm.SelectedTask.Title;

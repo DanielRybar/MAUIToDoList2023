@@ -9,7 +9,7 @@ namespace MAUIToDoList2023.Data
 
         public TaskDbContext(DbContextOptions options) : base(options)
         {
-            Database.EnsureDeleted();
+            //Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 
@@ -21,7 +21,7 @@ namespace MAUIToDoList2023.Data
                 TaskId = 1,
                 Title = "PRG - úkolníček",
                 Description = "Dodělat úkolníček pomocí MAUI s použitím SQLite.",
-                EndDate = new DateTime(2023, 03, 03),
+                EndDate = new DateTime(2024, 03, 03),
                 Importance = Importance.High,
                 IsDone = false
             };
@@ -38,7 +38,7 @@ namespace MAUIToDoList2023.Data
                 TaskId = 3,
                 Title = "ČJL - příprava test",
                 Description = "májovci, ruchovci, lumírovci",
-                EndDate = new DateTime(2023, 02, 26),
+                EndDate = new DateTime(2024, 02, 26),
                 Importance = Importance.Low,
                 IsDone = true
             };
@@ -55,7 +55,7 @@ namespace MAUIToDoList2023.Data
             {
                 TaskId = 5,
                 Title = "MAT - limity",
-                EndDate = new DateTime(2023, 03, 03),
+                EndDate = new DateTime(2024, 03, 03),
                 Importance = Importance.Medium,
                 IsDone = false
             };

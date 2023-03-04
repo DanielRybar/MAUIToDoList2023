@@ -41,4 +41,8 @@
     <Color x:Key="Blue200Accent">#72ACF1</Color>
     <Color x:Key="Blue300Accent">#A7CBF6</Color>
 
+    <Color x:Key="Crimson">Crimson</Color>
+    <Color x:Key="Blue">Blue</Color>
+    <Color x:Key="Green">Green</Color>
+
 </ResourceDictionary>

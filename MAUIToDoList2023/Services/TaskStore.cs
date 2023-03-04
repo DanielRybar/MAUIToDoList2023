@@ -99,9 +99,20 @@ namespace MAUIToDoList2023.Services
             }
         }
 
-        public Task<bool> UpdateItemAsync(TaskItem item)
+        public async Task<bool> UpdateItemAsync(TaskItem item)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _context.TaskItems.Update(item);
+                await _context.SaveChangesAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return false;
+            }
         }
     }
 }

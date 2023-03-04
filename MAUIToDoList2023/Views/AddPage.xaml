@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MAUIToDoList2023.Views.AddPage"
              Title="Přidat úkol"
-             Shell.BackgroundColor="Green"
+             Shell.BackgroundColor="{StaticResource Green}"
              xmlns:conv="clr-namespace:MAUIToDoList2023.Converters"
              xmlns:sys="clr-namespace:System;assembly=mscorlib">
     
@@ -42,7 +42,7 @@
                 <Label 
                     Grid.Column="1" 
                     Grid.Row="1"
-                    TextColor="Crimson" 
+                    TextColor="{StaticResource Crimson}" 
                     Text="{Binding ErrorMsg}" 
                     IsVisible="{Binding ErrorMsg, Converter={StaticResource VisibilityErrorConverter}}" />
 
@@ -94,7 +94,7 @@
                     WidthRequest="30"
                     Pressed="OnCancelButtonPressed" />
                 <Button 
-                    BackgroundColor="Green"
+                    BackgroundColor="{StaticResource Green}"
                     Text="Přidat"
                     Command="{Binding AddCommand}" />
             </HorizontalStackLayout>

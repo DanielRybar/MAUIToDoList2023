@@ -8,8 +8,8 @@
     Shell.FlyoutBehavior="Disabled"
     Shell.BackgroundColor="Tomato"
     Shell.NavBarHasShadow="True"
-    Shell.TitleColor="Black"
-    Shell.PresentationMode="ModalAnimated"
+    Shell.TitleColor="{StaticResource Black}"
+    Shell.PresentationMode="Animated"
     Title="Úkolníček">
     
         <ShellContent

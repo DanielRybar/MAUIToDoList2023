@@ -24,6 +24,7 @@ public static class MauiProgram
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                fonts.AddFont("comic-sans.ttf", "ComicSans");
             });
 
         builder.Services.AddDbContext<TaskDbContext>(options =>
